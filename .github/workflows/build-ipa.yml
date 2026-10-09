@@ -25,10 +25,10 @@ jobs:
           test -f docs/BUILDING.md
           test -f app/Madeira.xcodeproj/project.pbxproj
 
-      - name: Install tools
+      - name: Build Madeira
         run: |
-          brew install cmake ninja pkg-config \
-            autoconf automake libtool
+          chmod +x scripts/ios-build.sh
+          ./scripts/ios-build.sh
 
       - name: Build Madeira
         run: |
