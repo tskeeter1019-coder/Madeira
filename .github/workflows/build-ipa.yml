@@ -44,6 +44,12 @@ jobs:
       - name: Build FFmpeg
         run: bash build/ffmpeg/build.sh
 
+      - name: Install FEX Python dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/fex-python"
+          "$RUNNER_TEMP/fex-python/bin/python" -m pip install packaging setuptools
+          echo "$RUNNER_TEMP/fex-python/bin" >> "$GITHUB_PATH"
+
       - name: Build FEX for iOS
         run: bash build/fex-ios/build.sh
 
