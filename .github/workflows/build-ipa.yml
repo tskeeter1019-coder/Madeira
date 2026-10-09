@@ -53,21 +53,22 @@ jobs:
       - name: Build FEX for iOS
         run: bash build/fex-ios/build.sh
 
-```
-  - name: Build Wine libraries
-    run: |
-      bash build/ntdll-unix/build.sh || {
-        echo "===== audio_null_ios compiler error ====="
-        cat build/ntdll-unix/obj/audio_null_ios.err
-        echo "===== madsync compiler error ====="
-        cat build/ntdll-unix/obj/madsync.err
-        exit 1
-      }
-      bash build/win32u-unix/build.sh
-      bash build/wineserver/build.sh
-```
-
-
+      - name: Build Wine libraries
+        run: |
+          if ! bash build/ntdll-unix/build.sh; then
+            echo "===== audio_null_ios.err ====="
+            cat build/ntdll-unix/obj/audio_null_ios.err || true
+            echo "===== madsync.err ====="
+            cat build/ntdll-unix/obj/madsync.err || true
+            echo "===== debug.err ====="
+            cat build/ntdll-unix/obj/debug.err || true
+            echo "===== config.h check ====="
+            ls -l wine/build-macos/include/config.h || true
+            exit 1
+          fi
+          bash build/win32u-unix/build.sh
+          bash build/wineserver/build.sh
+          
       - name: Build DXMT
         run: bash build/dxmt-ios/build.sh
 
