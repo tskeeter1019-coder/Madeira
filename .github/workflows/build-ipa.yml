@@ -13,33 +13,73 @@ jobs:
     timeout-minutes: 360
 
     steps:
-      - name: Download repository
-        uses: actions/checkout@v4
+      - name: Checkout Madeira
+        uses: actions/checkout@v5
         with:
           submodules: recursive
+          fetch-depth: 0
 
-      - name: Check build files
+      - name: Install dependencies
         run: |
-          echo "Checking Madeira build files..."
-          ls
-          test -f docs/BUILDING.md
+          brew install cmake ninja meson pkg-config \
+            autoconf automake libtool bison 7zip \
+            rust
+
+      - name: Check required files
+        run: |
           test -f app/Madeira.xcodeproj/project.pbxproj
+          test -f build/fex-ios/build.sh
+          test -f build/ffmpeg/build.sh
+          test -f build/ntdll-unix/build.sh
 
-      - name: Install tools
+      - name: Prepare LLVM MinGW
         run: |
-          brew install cmake ninja pkg-config \
-            autoconf automake libtool
+          mkdir -p toolchains
+          cd toolchains
+          curl -fL -o llvm-mingw.tar.xz \
+            https://github.com/mstorsjo/llvm-mingw/releases/download/20260421/llvm-mingw-20260421-ucrt-macos-universal.tar.xz
+          echo "Extracting LLVM MinGW..."
+          tar -xf llvm-mingw.tar.xz
 
-      - name: Build Madeira
+      - name: Build FFmpeg
+        run: bash build/ffmpeg/build.sh
+
+      - name: Build FEX for iOS
+        run: bash build/fex-ios/build.sh
+
+      - name: Build Wine libraries
         run: |
-          chmod +x scripts/ios-build.sh
-          ./scripts/ios-build.sh
+          bash build/ntdll-unix/build.sh
+          bash build/win32u-unix/build.sh
+          bash build/wineserver/build.sh
+
+      - name: Build DXMT
+        run: bash build/dxmt-ios/build.sh
+
+      - name: Stage licenses
+        run: bash build/stage-licenses.sh
+
+      - name: Build iOS app
+        run: |
+          xcodebuild \
+            -project app/Madeira.xcodeproj \
+            -scheme Madeira \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build-output \
+            build
+
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          cp -R build-output/Build/Products/Debug-iphoneos/Madeira.app Payload/
+          /usr/bin/ditto -c -k --sequesterRsrc \
+            --keepParent Payload Madeira.ipa
 
       - name: Upload IPA
-        if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Madeira-IPA
-          path: build-output/Madeira-iOS.ipa
+          path: Madeira.ipa
           if-no-files-found: error
           retention-days: 7
