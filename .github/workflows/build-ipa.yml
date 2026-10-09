@@ -62,8 +62,6 @@ jobs:
       }
       bash build/win32u-unix/build.sh
       bash build/wineserver/build.sh
-```
-
 
       - name: Build DXMT
         run: bash build/dxmt-ios/build.sh
