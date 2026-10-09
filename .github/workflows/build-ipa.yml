@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Download repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -25,24 +25,19 @@ jobs:
           test -f docs/BUILDING.md
           test -f app/Madeira.xcodeproj/project.pbxproj
 
-      - name: Build Madeira
+      - name: Install tools
         run: |
-          chmod +x scripts/ios-build.sh
-          ./scripts/ios-build.sh
+          brew install cmake ninja pkg-config \
+            autoconf automake libtool
 
       - name: Build Madeira
         run: |
-          if [ ! -f scripts/ios-build.sh ]; then
-            echo "Build script is missing."
-            echo "See docs/BUILDING.md for the required build steps."
-            exit 1
-          fi
           chmod +x scripts/ios-build.sh
           ./scripts/ios-build.sh
 
       - name: Upload IPA
         if: success()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: Madeira-IPA
           path: build-output/Madeira-iOS.ipa
