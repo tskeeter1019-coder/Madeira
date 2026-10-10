@@ -79,9 +79,26 @@ jobs:
       - name: Generate Wine IDL headers
         run: |
           export PATH="$GITHUB_WORKSPACE/toolchains/llvm-mingw-20260421-ucrt-macos-universal/bin:$(brew --prefix bison)/bin:$PATH"
-          make -C wine/build-arm64ec include/dwrite.h include/dwrite_3.h include/dcommon.h include/dxgiformat.h
-          make -C wine/build-macos include/wtypes.h include/objidlbase.h include/unknwn.h include/mfobjects.h include/mftransform.h
+
+          make -C wine/build-arm64ec \
+            include/dwrite.h \
+            include/dwrite_1.h \
+            include/dwrite_2.h \
+            include/dwrite_3.h \
+            include/dcommon.h \
+            include/dxgiformat.h
+
+          make -C wine/build-macos \
+            include/wtypesbase.h \
+            include/wtypes.h \
+            include/unknwn.h \
+            include/objidlbase.h \
+            include/mfobjects.h \
+            include/mftransform.h
+
+          test -f wine/build-arm64ec/include/dwrite_2.h
           test -f wine/build-arm64ec/include/dxgiformat.h
+          test -f wine/build-macos/include/wtypesbase.h
           test -f wine/build-macos/include/unknwn.h
         
       - name: Build FreeType for iOS
@@ -94,9 +111,11 @@ jobs:
         run: |
           for f in \
             wine/build-arm64ec/include/dwrite.h \
+            wine/build-arm64ec/include/dwrite_2.h \
             wine/build-arm64ec/include/dwrite_3.h \
             wine/build-arm64ec/include/dcommon.h \
             wine/build-arm64ec/include/dxgiformat.h \
+            wine/build-macos/include/wtypesbase.h \
             wine/build-macos/include/wtypes.h \
             wine/build-macos/include/objidlbase.h \
             wine/build-macos/include/unknwn.h \
