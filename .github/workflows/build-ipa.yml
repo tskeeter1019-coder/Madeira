@@ -53,6 +53,15 @@ jobs:
       - name: Build FEX for iOS
         run: bash build/fex-ios/build.sh
 
+      - name: Configure Wine headers
+        run: |
+          mkdir -p wine/build-macos
+          cd wine/build-macos
+          if [ ! -f config.status ]; then
+            ../configure --without-x --disable-tests --enable-winegstreamer
+          fi
+          test -f include/config.h
+          
       - name: Build Wine libraries
         run: |
           if ! bash build/ntdll-unix/build.sh; then
