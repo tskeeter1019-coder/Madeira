@@ -55,8 +55,11 @@ jobs:
 
       - name: Configure Wine headers
         run: |
-          brew install bison
-          export PATH="$(brew --prefix bison)/bin:$PATH"
+          export PATH="$GITHUB_WORKSPACE/toolchains/llvm-mingw-20260421-ucrt-macos-universal/bin:$(brew --prefix bison)/bin:$PATH"
+          echo "Checking Windows cross-compilation tools:"
+          command -v aarch64-w64-mingw32-clang || true
+          command -v llvm-dlltool || true
+          command -v ld.lld || true
           bison --version
           mkdir -p wine/build-macos
           cd wine/build-macos
