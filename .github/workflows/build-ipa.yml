@@ -86,8 +86,8 @@ jobs:
             include/dwrite_2.h \
             include/dwrite_3.h \
             include/dcommon.h \
-            include/dxgiformat.h
-            include/d2d1.h
+            include/dxgiformat.h \
+            include/d2d1.h \
 
           make -C wine/build-macos \
             include/wtypesbase.h \
@@ -96,7 +96,7 @@ jobs:
             include/objidlbase.h \
             include/mfobjects.h \
             include/mftransform.h
-            include/objidl.h
+            include/objidl.h \
 
           test -f wine/build-arm64ec/include/dwrite_2.h
           test -f wine/build-arm64ec/include/dxgiformat.h
