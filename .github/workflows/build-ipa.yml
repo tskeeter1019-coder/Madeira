@@ -79,12 +79,10 @@ jobs:
       - name: Generate Wine IDL headers
         run: |
           export PATH="$GITHUB_WORKSPACE/toolchains/llvm-mingw-20260421-ucrt-macos-universal/bin:$(brew --prefix bison)/bin:$PATH"
-          make -C wine/build-arm64ec include/dwrite.h include/dwrite_3.h include/dcommon.h
-          make -C wine/build-macos include/wtypes.h include/objidlbase.h include/mfobjects.h include/mftransform.h
-          test -f wine/build-arm64ec/include/dwrite.h
-          test -f wine/build-arm64ec/include/dcommon.h
-          test -f wine/build-macos/include/wtypes.h
-          test -f wine/build-macos/include/objidlbase.h
+          make -C wine/build-arm64ec include/dwrite.h include/dwrite_3.h include/dcommon.h include/dxgiformat.h
+          make -C wine/build-macos include/wtypes.h include/objidlbase.h include/unknwn.h include/mfobjects.h include/mftransform.h
+          test -f wine/build-arm64ec/include/dxgiformat.h
+          test -f wine/build-macos/include/unknwn.h
         
       - name: Build FreeType for iOS
         run: |
@@ -98,8 +96,10 @@ jobs:
             wine/build-arm64ec/include/dwrite.h \
             wine/build-arm64ec/include/dwrite_3.h \
             wine/build-arm64ec/include/dcommon.h \
+            wine/build-arm64ec/include/dxgiformat.h \
             wine/build-macos/include/wtypes.h \
             wine/build-macos/include/objidlbase.h \
+            wine/build-macos/include/unknwn.h \
             wine/build-macos/include/mfobjects.h \
             wine/build-macos/include/mftransform.h; do
             if [ -f "$f" ]; then
