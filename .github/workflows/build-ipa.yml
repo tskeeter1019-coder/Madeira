@@ -55,7 +55,9 @@ jobs:
 
       - name: Configure Wine headers
         run: |
-          mkdir -p wine/build-macos
+          brew install bison
+          export PATH="$(brew --prefix bison)/bin:$PATH"
+          bison --version
           cd wine/build-macos
           if [ ! -f config.status ]; then
             ../configure --without-x --disable-tests --enable-winegstreamer
