@@ -75,9 +75,21 @@ jobs:
         run: |
           export PATH="$GITHUB_WORKSPACE/toolchains/llvm-mingw-20260421-ucrt-macos-universal/bin:$(brew --prefix bison)/bin:$PATH"
           bash build/wine-pe/build-ntdll.sh
-          
-      - name: Build Wine PE headers
-        run: bash build/wine-pe/build-ntdll.sh
+   
+      - name: Check generated Wine headers
+        run: |
+          for f in \
+            wine/build-arm64ec/include/dwrite.h \
+            wine/build-arm64ec/include/dcommon.h \
+            wine/build-macos/include/wtypes.h \
+            wine/build-macos/include/objidlbase.h; do
+            if [ -f "$f" ]; then
+              echo "FOUND: $f"
+            else
+              echo "MISSING: $f"
+            fi
+          done
+
         
       - name: Build FreeType for iOS
         run: |
