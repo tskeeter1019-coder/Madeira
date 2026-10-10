@@ -58,6 +58,7 @@ jobs:
           brew install bison
           export PATH="$(brew --prefix bison)/bin:$PATH"
           bison --version
+          mkdir -p wine/build-macos
           cd wine/build-macos
           if [ ! -f config.status ]; then
             ../configure --without-x --disable-tests --enable-winegstreamer
