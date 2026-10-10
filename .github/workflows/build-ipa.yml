@@ -85,6 +85,14 @@ jobs:
           git clone --depth 1 --branch VER-2-13-3 https://github.com/freetype/freetype.git research/freetype
           bash build/freetype-ios/build.sh
         
+      - name: Generate Wine IDL headers
+        run: |
+          export PATH="$GITHUB_WORKSPACE/toolchains/llvm-mingw-20260421-ucrt-macos-universal/bin:$(brew --prefix bison)/bin:$PATH"
+          make -C wine/build-arm64ec include/dwrite.h include/dwrite_3.h
+          make -C wine/build-macos include/wtypes.h include/mfobjects.h include/mftransform.h
+          test -f wine/build-arm64ec/include/dwrite.h
+          test -f wine/build-macos/include/wtypes.h
+
       - name: Build Wine libraries
         run: |
           if ! bash build/ntdll-unix/build.sh; then
