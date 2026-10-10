@@ -89,7 +89,6 @@ jobs:
               echo "MISSING: $f"
             fi
           done
-
         
       - name: Build FreeType for iOS
         run: |
