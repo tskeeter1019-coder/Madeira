@@ -79,6 +79,12 @@ jobs:
       - name: Build Wine PE headers
         run: bash build/wine-pe/build-ntdll.sh
         
+      - name: Build FreeType for iOS
+        run: |
+          mkdir -p research
+          git clone --depth 1 --branch VER-2-13-3 https://github.com/freetype/freetype.git research/freetype
+          bash build/freetype-ios/build.sh
+        
       - name: Build Wine libraries
         run: |
           if ! bash build/ntdll-unix/build.sh; then
