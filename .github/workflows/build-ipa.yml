@@ -70,6 +70,11 @@ jobs:
             ../configure --without-x --disable-tests --enable-winegstreamer
           fi
           test -f include/config.h
+
+      - name: Build Wine PE headers
+        run: |
+          export PATH="$GITHUB_WORKSPACE/toolchains/llvm-mingw-20260421-ucrt-macos-universal/bin:$(brew --prefix bison)/bin:$PATH"
+          bash build/wine-pe/build-ntdll.sh
           
       - name: Build Wine libraries
         run: |
