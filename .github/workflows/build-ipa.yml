@@ -77,6 +77,19 @@ jobs:
             cat build/ntdll-unix/obj/madsync.err || true
             echo "===== debug.err ====="
             cat build/ntdll-unix/obj/debug.err || true
+            
+            echo "===== bcrypt_unixlib.err ====="
+            cat build/ntdll-unix/obj/bcrypt_unixlib.err || true
+            echo "===== secur32_unixlib.err ====="
+            cat build/ntdll-unix/obj/secur32_unixlib.err || true
+            echo "===== dwrite_unixlib.err ====="
+            cat build/ntdll-unix/obj/dwrite_unixlib.err || true
+            echo "===== crypt32_unixlib.err ====="
+            cat build/ntdll-unix/obj/crypt32_unixlib.err || true
+            echo "===== winegstreamer_unixlib.err ====="
+            cat build/ntdll-unix/obj/winegstreamer_unixlib.err || true
+            echo "===== server.err ====="
+            cat build/ntdll-unix/obj/server.err || true
             echo "===== config.h check ====="
             ls -l wine/build-macos/include/config.h || true
             exit 1
