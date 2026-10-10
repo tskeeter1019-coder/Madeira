@@ -76,6 +76,9 @@ jobs:
           export PATH="$GITHUB_WORKSPACE/toolchains/llvm-mingw-20260421-ucrt-macos-universal/bin:$(brew --prefix bison)/bin:$PATH"
           bash build/wine-pe/build-ntdll.sh
           
+      - name: Build Wine PE headers
+        run: bash build/wine-pe/build-ntdll.sh
+        
       - name: Build Wine libraries
         run: |
           if ! bash build/ntdll-unix/build.sh; then
