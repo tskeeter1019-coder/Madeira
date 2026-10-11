@@ -87,6 +87,7 @@ jobs:
             include/dwrite_3.h \
             include/dcommon.h \
             include/dxgiformat.h \
+            include/dxgicommon.h \
             include/dxgitype.h \
             include/dxgi.h \
             include/d3d10.h \
@@ -103,6 +104,7 @@ jobs:
             include/propidl.h \
             include/oleidl.h \
             include/ocidl.h \
+            include/servprov.h \
             include/mfobjects.h \
             include/mftransform.h
 
@@ -118,6 +120,8 @@ jobs:
           test -f wine/build-macos/include/propidl.h
           test -f wine/build-macos/include/oleidl.h
           test -f wine/build-macos/include/ocidl.h
+          test -f wine/build-arm64ec/include/dxgicommon.h
+          test -f wine/build-macos/include/servprov.h
         
       - name: Build FreeType for iOS
         run: |
@@ -148,6 +152,8 @@ jobs:
             wine/build-macos/include/oleidl.h \
             wine/build-arm64ec/include/dxgitype.h \
             wine/build-macos/include/ocidl.h \
+            wine/build-arm64ec/include/dxgicommon.h \
+            wine/build-macos/include/servprov.h \
             wine/build-macos/include/mftransform.h; do
             if [ -f "$f" ]; then
               echo "FOUND: $f"
