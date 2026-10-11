@@ -95,7 +95,7 @@ jobs:
             include/unknwn.h \
             include/objidlbase.h \
             include/mfobjects.h \
-            include/mftransform.h
+            include/mftransform.h \
             include/objidl.h 
 
           test -f wine/build-arm64ec/include/dwrite_2.h
