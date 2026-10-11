@@ -93,7 +93,7 @@ jobs:
             include/d3dcommon.h \
             include/d3d10.h \
             include/d3d10_1.h \
-            include/d3d10sdklayers.h
+            include/d3d10sdklayers.h \
             include/d2d1.h
 
           make -C wine/build-macos \
@@ -108,7 +108,7 @@ jobs:
             include/ocidl.h \
             include/servprov.h \
             include/urlmon.h \
-            include/msxml.h
+            include/msxml.h \
             include/mfobjects.h \
             include/mftransform.h
 
@@ -218,6 +218,9 @@ jobs:
             -configuration Debug \
             -destination 'generic/platform=iOS' \
             -derivedDataPath build-output \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
             build
 
       - name: Package IPA
