@@ -87,23 +87,29 @@ jobs:
             include/dwrite_3.h \
             include/dcommon.h \
             include/dxgiformat.h \
-            include/d2d1.h \
-            include/d3d10_1.h 
+            include/d3d10.h \
+            include/d3d10_1.h \
+            include/d2d1.h
 
           make -C wine/build-macos \
             include/wtypesbase.h \
             include/wtypes.h \
             include/unknwn.h \
             include/objidlbase.h \
-            include/mfobjects.h \
-            include/mftransform.h \
             include/objidl.h \
-            include/propidl.h 
+            include/oaidl.h \
+            include/propidl.h \
+            include/mfobjects.h \
+            include/mftransform.h
 
           test -f wine/build-arm64ec/include/dwrite_2.h
           test -f wine/build-arm64ec/include/dxgiformat.h
+          test -f wine/build-arm64ec/include/d3d10.h
+          test -f wine/build-arm64ec/include/d3d10_1.h
           test -f wine/build-macos/include/wtypesbase.h
           test -f wine/build-macos/include/unknwn.h
+          test -f wine/build-macos/include/oaidl.h
+          test -f wine/build-macos/include/propidl.h
         
       - name: Build FreeType for iOS
         run: |
@@ -126,6 +132,10 @@ jobs:
             wine/build-macos/include/mfobjects.h \
             wine/build-arm64ec/include/d2d1.h \
             wine/build-macos/include/objidl.h \
+            wine/build-arm64ec/include/d3d10.h \
+            wine/build-arm64ec/include/d3d10_1.h \
+            wine/build-macos/include/oaidl.h \
+            wine/build-macos/include/propidl.h \
             wine/build-macos/include/mftransform.h; do
             if [ -f "$f" ]; then
               echo "FOUND: $f"
